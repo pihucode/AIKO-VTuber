@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 DEEPGRAM_API_KEY = os.getenv('DEEPGRAM_API_KEY')
-PATH_TO_FILE = 'eng_speech.wav'
+PATH_TO_FILE = 'audio/eng_speech.wav'
 
 
 def speech_to_text():
@@ -23,4 +23,4 @@ def speech_to_text():
         return transcript
 
 
-speech_to_text()
+# speech_to_text()
