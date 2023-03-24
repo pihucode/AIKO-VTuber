@@ -1,3 +1,4 @@
 .env
-archive/
 *.wav
+archive/
+playground/
