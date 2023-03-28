@@ -2,3 +2,4 @@
 *.wav
 archive/
 playground/
+__*__/

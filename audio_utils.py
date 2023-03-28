@@ -41,13 +41,15 @@ class Recorder():
         print("Recording stopped.")
         self.stream.stop_stream()
         self.stream.close()
-
-    def play_recording(self):
+        # save the audio file
         with wave.open(WAVE_OUTPUT_FILENAME, 'wb') as wf:
             wf.setnchannels(CHANNELS)
             wf.setsampwidth(p.get_sample_size(FORMAT))
             wf.setframerate(RATE)
             wf.writeframes(b''.join(self.frames))
+        return
+
+    def play_recording(self):
         playsound(WAVE_OUTPUT_FILENAME)
 
     def callback(self, in_data, frame_count, time_info, status):
@@ -68,14 +70,17 @@ class MyListener(keyboard.Listener):
     def on_release(self, key):
         if key.char == 'r':
             self.recorder.stop()
-            return False
+            # return True
         # Any other key ends the program
         return False
 
 
 # Collect events until released
 # with MyListener() as listener:
+#     print("Press and hold the 'r' key to begin recording")
+#     print("Release the 'r' key to end recording")
 #     listener.join()
+
 
 def record_mic_audio():
     print("Press and hold the 'r' key to begin recording")
@@ -83,3 +88,12 @@ def record_mic_audio():
     listener = MyListener()
     listener.start()
     listener.join()
+
+
+def play_recording():
+    listener = MyListener()
+    listener.recorder.play_recording()
+    listener.join()
+
+
+record_mic_audio()
