@@ -18,12 +18,12 @@ async def getSpeakerInfo():
             print()
 
 
-async def text_to_jpn_speech():
+async def text_to_speech(text):
     async with Client() as client:
-        audio_query = await client.create_audio_query("こんにちは！", speaker=1)
-        with open("voice.wav", "wb") as f:
-            f.write(await audio_query.synthesis(speaker=1))
+        audio_query = await client.create_audio_query(text, speaker=47)
+        with open("voicevox_output.wav", "wb") as f:
+            f.write(await audio_query.synthesis(speaker=47))
 
 if __name__ == '__main__':
     # asyncio.run(getSpeakerInfo())
-    asyncio.run(text_to_jpn_speech())
+    asyncio.run(text_to_speech('こんにちは'))
