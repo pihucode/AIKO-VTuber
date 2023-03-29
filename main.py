@@ -1,34 +1,42 @@
-# from audio_utils import record_mic_audio, play_recording
+from audio_utils import record_mic_audio
 from deepgram_test import speech_to_text
 from deepl_tutorial import translate
+from openai_utils import generate_response
 from voicevox_tut import text_to_speech
 import asyncio
 from playsound import playsound
 import sounddevice as sd
 import soundfile as sf
+from threading import Thread
+
+VOICEVOX_FILENAME = 'voicevox_output.wav'
 
 
 async def main():
-    # record_mic_audio()
-    # text = speech_to_text()
-    # # text = 'The best ramen is free ramen!'
-    # translated_txt = translate(text, target_lang='JA')
-    # print(translated_txt)
+    record_mic_audio()
+    prompt = speech_to_text()
+    response_text = generate_response(prompt)
+    print(response_text)
+    translated_txt = translate(response_text, target_lang='JA')
+    print(translated_txt)
+    await text_to_speech(translated_txt)
 
-    # await text_to_speech(translated_txt)
-    # playsound('voicevox_output.wav')
+    Thread(target=play_vtube_speakers).start()
+    Thread(target=play_main_speakers).start()
 
-    filename = 'voicevox_output.wav'
-    data, fs = sf.read(filename, dtype='float32')
-    sd.default.device = [3, 5]
-    sd.play(data, samplerate=fs, device=3, blocking=False)
-    status = sd.wait()  # Wait until file is done playing
-    sd.play(data, samplerate=fs, device=5, blocking=False)
+    await main()
 
-    # Define the output stream with the specified devices
-    # with sd.OutputStream(device=[3,5], channels=2, samplerate=fs) as out_stream:
-    #     # Play the audio data through the output stream
-    #     out_stream.write(data)
+
+def play_vtube_speakers():
+    data1, fs1 = sf.read(VOICEVOX_FILENAME, dtype='float32')
+    sd.play(data1, fs1, device=5)
+    sd.wait()
+
+
+def play_main_speakers():
+    data2, fs2 = sf.read(VOICEVOX_FILENAME, dtype='float32')
+    sd.play(data2, samplerate=fs2, device=11)
+    sd.wait()
 
 
 loop = asyncio.new_event_loop()
