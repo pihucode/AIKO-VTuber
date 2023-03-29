@@ -24,6 +24,6 @@ async def text_to_speech(text):
         with open("voicevox_output.wav", "wb") as f:
             f.write(await audio_query.synthesis(speaker=47))
 
-if __name__ == '__main__':
-    # asyncio.run(getSpeakerInfo())
-    asyncio.run(text_to_speech('こんにちは'))
+# if __name__ == '__main__':
+#     # asyncio.run(getSpeakerInfo())
+#     asyncio.run(text_to_speech('こんにちは'))
