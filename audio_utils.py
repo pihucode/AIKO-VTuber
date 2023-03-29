@@ -5,7 +5,7 @@ from playsound import playsound
 
 CHUNK = 8192
 FORMAT = pyaudio.paInt16
-CHANNELS = 2
+CHANNELS = 1
 RATE = 44100
 RECORD_SECONDS = 5
 WAVE_OUTPUT_FILENAME = "microphone_audio.wav"
@@ -28,8 +28,8 @@ class Recorder():
                                  input=True,
                                  frames_per_buffer=CHUNK,
                                  stream_callback=self.callback)
-            print("Stream active:", self.stream.is_active())
-            print("Stream started!")
+            # print("Stream active:", self.stream.is_active())
+            print("Recording started!")
             self.recording = True
         except:
             raise
@@ -47,7 +47,6 @@ class Recorder():
             wf.setsampwidth(p.get_sample_size(FORMAT))
             wf.setframerate(RATE)
             wf.writeframes(b''.join(self.frames))
-        return
 
     def play_recording(self):
         playsound(WAVE_OUTPUT_FILENAME)
@@ -83,8 +82,8 @@ class MyListener(keyboard.Listener):
 
 
 def record_mic_audio():
-    print("Press and hold the 'r' key to begin recording")
-    print("Release the 'r' key to end recording")
+    print("Press and hold the 'r' key to begin recording.")
+    # print("Release the 'r' key to end recording")
     listener = MyListener()
     listener.start()
     listener.join()
@@ -94,6 +93,3 @@ def play_recording():
     listener = MyListener()
     listener.recorder.play_recording()
     listener.join()
-
-
-record_mic_audio()
