@@ -6,11 +6,30 @@ load_dotenv()
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
 
-def generate_response(prompt, max_tokens=50):
-    response = openai.Completion.create(
-        model="text-davinci-003", prompt=prompt, temperature=0, max_tokens=max_tokens)
-    return response['choices'][0]['text']
+def read_file(filepath):
+    with open(filepath, 'r', encoding='utf-8') as infile:
+        return infile.read()
 
 
-# res = generate_response("What is the weather today in NJ?", max_tokens=50)
-# print(res['choices'][0]['text'])
+def generate_response(prompt):
+    print('Generating response...')
+    chat_history = [
+        {"role": "system", "content": read_file('prompt_chat.txt')},
+        {"role": "user", "content": prompt}
+    ]
+    response = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo",
+        messages=chat_history,
+        temperature=0.8,
+        max_tokens=256,
+        frequency_penalty=0.5,
+        presence_penalty=.2,
+        stop=None,
+    )
+    text = response['choices'][0]['message']['content']
+    print(text)
+    return text
+
+
+# prompt = 'What do you like to do?'
+# generate_response(prompt)
