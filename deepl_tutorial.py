@@ -15,7 +15,7 @@ def translate(text, target_lang):
         return
 
     result = translator.translate_text(
-        text, source_lang='EN', target_lang=target_lang)
+        text, target_lang=target_lang)
     return result.text
 
 
