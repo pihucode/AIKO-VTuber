@@ -19,10 +19,11 @@ async def getSpeakerInfo():
 
 
 async def text_to_speech(text):
+    speaker_id = 3
     async with Client() as client:
-        audio_query = await client.create_audio_query(text, speaker=47)
+        audio_query = await client.create_audio_query(text, speaker=speaker_id)
         with open("voicevox_output.wav", "wb") as f:
-            f.write(await audio_query.synthesis(speaker=47))
+            f.write(await audio_query.synthesis(speaker=speaker_id))
 
 # if __name__ == '__main__':
 #     # asyncio.run(getSpeakerInfo())
