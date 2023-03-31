@@ -62,13 +62,17 @@ class MyListener(keyboard.Listener):
         self.recorder = Recorder()
 
     def on_press(self, key):
-        if key.char == 'r':
+        # ignore if key is not a character
+        if hasattr(key, 'char') and key.char == 'r':
+            # if key.char == 'r':
             self.recorder.start()
         return True
 
     def on_release(self, key):
-        if key.char == 'r':
+        if hasattr(key, 'char') and key.char == 'r':
             self.recorder.stop()
+        # if key.char == 'r':
+            # self.recorder.stop()
             # return True
         # Any other key ends the program
         return False
